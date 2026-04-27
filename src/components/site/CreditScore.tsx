@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart, Area, BarChart, Bar, CartesianGrid } from "recharts";
+import { XAxis, YAxis, ResponsiveContainer, Tooltip, AreaChart, Area, BarChart, Bar, CartesianGrid, Cell } from "recharts";
 import { Download, Gauge, TrendingUp } from "lucide-react";
 
 const bureaus = [
@@ -169,6 +169,3 @@ export function CreditScore({ onAction }: { onAction: (label: string) => void })
     </section>
   );
 }
-
-// Re-import Cell for BarChart
-import { Cell } from "recharts";
