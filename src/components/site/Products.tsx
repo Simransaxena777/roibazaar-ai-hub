@@ -92,12 +92,13 @@ export function Products({ onAction }: { onAction: (product: string, cta: string
                     </li>
                   ))}
                 </ul>
-              <button
-                onClick={() => onAction(p.title, p.cta)}
-                className={`mt-5 w-full rounded-full bg-gradient-to-r ${p.color} text-white font-bold text-sm py-3 shadow-soft hover:shadow-glow transition-all flex items-center justify-center gap-2`}
-              >
-                <Zap size={14} /> {p.cta}
-              </button>
+                <button
+                  onClick={() => onAction(p.title, p.cta)}
+                  className={`mt-5 w-full rounded-full bg-gradient-to-r ${p.color} text-white font-bold text-sm py-3 shadow-soft hover:shadow-glow transition-all flex items-center justify-center gap-2`}
+                >
+                  <Zap size={14} /> {p.cta}
+                </button>
+              </div>
             </div>
           ))}
         </div>
