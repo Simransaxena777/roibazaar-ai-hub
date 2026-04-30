@@ -1,5 +1,5 @@
 import { CreditCard, Percent, Zap, Shield, ArrowRight, Sparkles } from "lucide-react";
-import aiAvatar from "@/assets/ai-avatar.jpg";
+import aiAvatar from "@/assets/ai-riya.jpg";
 
 export function Hero({ onCompare, onTalk }: { onCompare: () => void; onTalk: () => void }) {
   return (
@@ -50,7 +50,7 @@ export function Hero({ onCompare, onTalk }: { onCompare: () => void; onTalk: () 
               </div>
               <div>
                 <p className="text-sm font-bold text-foreground">Meet Riya — Your AI Advisor</p>
-                <p className="text-xs text-muted-foreground">Speaks Hindi, English & Hinglish</p>
+                <p className="text-xs text-muted-foreground">Speaks Hindi, English, Tamil, Telugu, Bengali +6 more</p>
               </div>
             </div>
           </div>
