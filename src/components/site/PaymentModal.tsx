@@ -305,14 +305,15 @@ export function PaymentModal({
               <p className="text-xs text-muted-foreground">A 6-digit code was sent to your registered mobile number.</p>
               <input
                 value={otp}
-                onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                onChange={(e) => { setOtp(e.target.value.replace(/\D/g, "").slice(0, 6)); if (errors.otp) setErrors({ ...errors, otp: "" }); }}
                 placeholder="••••••"
-                className="w-full text-center text-2xl tracking-[0.6em] font-bold py-3 rounded-2xl border-2 border-border focus:border-primary outline-none"
+                className={`w-full text-center text-2xl tracking-[0.6em] font-bold py-3 rounded-2xl border-2 outline-none ${errors.otp ? "border-red-500" : "border-border focus:border-primary"}`}
               />
+              {errors.otp && <p className="text-xs text-red-500 font-semibold">{errors.otp}</p>}
               <button onClick={verifyAndPay} className="w-full rounded-full bg-gradient-primary text-white font-bold py-3.5 shadow-glow hover:scale-[1.02] transition">
                 Verify & Pay ₹{request.amount.toLocaleString("en-IN")}
               </button>
-              <p className="text-[11px] text-muted-foreground">Use any 4–6 digit code for this demo.</p>
+              <p className="text-[11px] text-muted-foreground">Use any 6-digit code for this demo.</p>
             </div>
           )}
 
