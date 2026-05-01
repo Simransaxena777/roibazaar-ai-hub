@@ -276,14 +276,14 @@ export function LoginModal({ open, onClose, onSuccess }: {
                 maxLength={6}
                 placeholder="• • • • • •"
                 value={otp}
-                onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                className="w-full rounded-xl border-2 border-border px-4 py-4 text-center text-2xl font-bold tracking-[0.5em] focus:outline-none focus:border-primary"
+                onChange={(e) => { setOtp(e.target.value.replace(/\D/g, "")); if (errors.otp) setErrors({ ...errors, otp: "" }); }}
+                className={`w-full rounded-xl border-2 px-4 py-4 text-center text-2xl font-bold tracking-[0.5em] focus:outline-none ${errors.otp ? "border-red-500" : "border-border focus:border-primary"}`}
                 autoFocus
               />
+              {errors.otp && <p className="mt-2 text-xs text-red-500 font-semibold text-center">⚠ {errors.otp}</p>}
               <button
                 onClick={verifyOtp}
-                disabled={otp.length < 4}
-                className="mt-4 w-full rounded-xl bg-gradient-primary text-white font-bold py-3.5 shadow-glow disabled:opacity-50"
+                className="mt-4 w-full rounded-xl bg-gradient-primary text-white font-bold py-3.5 shadow-glow"
               >
                 Verify & Continue
               </button>
