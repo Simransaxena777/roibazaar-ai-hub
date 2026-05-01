@@ -265,8 +265,8 @@ export function PaymentModal({
                   <div key={a} className="rounded-2xl border-2 border-border p-3 text-center text-xs font-bold hover:border-primary/40 cursor-pointer">{a}</div>
                 ))}
               </div>
-              <Field label="Enter UPI ID">
-                <input value={upiId} onChange={(e) => setUpiId(e.target.value)} placeholder="yourname@okhdfcbank" className="w-full bg-transparent outline-none" />
+              <Field label="Enter UPI ID" error={errors.upiId}>
+                <input value={upiId} onChange={(e) => { setUpiId(e.target.value); if (errors.upiId) setErrors({ ...errors, upiId: "" }); }} placeholder="yourname@okhdfcbank" className="w-full bg-transparent outline-none" />
               </Field>
               <p className="text-xs text-muted-foreground">A collect request will be sent to your UPI app.</p>
               <PayBtn onClick={proceedToOtp} amount={request.amount} />
