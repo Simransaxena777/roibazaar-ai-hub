@@ -18,6 +18,7 @@ import { Testimonials } from "@/components/site/Testimonials";
 import { Partners, WhyUs } from "@/components/site/Partners";
 import { AppDownload } from "@/components/site/AppDownload";
 import { Blog } from "@/components/site/Blog";
+import { FAQ } from "@/components/site/FAQ";
 import { CTASection, Footer } from "@/components/site/Footer";
 import { AIChatWidget } from "@/components/site/AIChatWidget";
 import { LoginModal } from "@/components/site/LoginModal";
@@ -112,6 +113,7 @@ function Index() {
       <Partners />
       <AppDownload />
       <Blog />
+      <FAQ />
       <CTASection onAction={() => setLoginOpen(true)} />
       <Footer />
 
