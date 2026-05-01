@@ -39,8 +39,8 @@ export function Header({ onSignIn, onGetStarted, onQR, onSearch }: {
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 shrink-0">
-            <div className="relative h-10 w-10 rounded-xl bg-gradient-primary p-1.5 shadow-glow">
-              <img src={logo} alt="ROI Bazaar" className="h-full w-full rounded-lg object-cover" />
+            <div className="relative h-11 w-11 rounded-xl bg-white p-1 shadow-soft ring-1 ring-border">
+              <img src={logo} alt="ROI Bazaar" className="h-full w-full rounded-lg object-contain" />
             </div>
             <div className="flex flex-col leading-tight">
               <span className="font-display font-extrabold text-base text-foreground">
