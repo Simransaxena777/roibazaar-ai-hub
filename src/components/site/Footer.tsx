@@ -59,7 +59,7 @@ export function Footer() {
               India's leading financial marketplace. Compare and choose the best financial products in seconds.
             </p>
             <div className="mt-6 space-y-2 text-sm text-white/80">
-              <p className="flex items-center gap-2"><Mail size={14} /> support@roibazaar.in</p>
+              <p className="flex items-center gap-2"><Mail size={14} /><span>support@roibazaar.in</span></p>
               <p className="flex items-center gap-2"><Phone size={14} /> +91 1800-123-4567</p>
               <p className="flex items-center gap-2"><MapPin size={14} /> Mumbai, Bangalore, Delhi</p>
             </div>
