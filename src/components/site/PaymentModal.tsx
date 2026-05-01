@@ -236,21 +236,22 @@ export function PaymentModal({
                 ))}
               </div>
 
-              <Field label="Card Number">
-                <input value={cardNumber} onChange={(e) => setCardNumber(formatCard(e.target.value))} placeholder="1234 5678 9012 3456" className="w-full bg-transparent outline-none font-mono" />
+              <Field label="Card Number" error={errors.cardNumber}>
+                <input value={cardNumber} onChange={(e) => { setCardNumber(formatCard(e.target.value)); if (errors.cardNumber) setErrors({ ...errors, cardNumber: "" }); }} placeholder="1234 5678 9012 3456" className="w-full bg-transparent outline-none font-mono" />
               </Field>
-              <Field label="Cardholder Name">
-                <input value={cardName} onChange={(e) => setCardName(e.target.value.toUpperCase())} placeholder="NAME ON CARD" className="w-full bg-transparent outline-none uppercase" />
+              <Field label="Cardholder Name" error={errors.cardName}>
+                <input value={cardName} onChange={(e) => { setCardName(e.target.value.toUpperCase()); if (errors.cardName) setErrors({ ...errors, cardName: "" }); }} placeholder="NAME ON CARD" className="w-full bg-transparent outline-none uppercase" />
               </Field>
               <div className="grid grid-cols-2 gap-3">
-                <Field label="Expiry (MM/YY)">
+                <Field label="Expiry (MM/YY)" error={errors.expiry}>
                   <input value={expiry} onChange={(e) => {
                     const v = e.target.value.replace(/\D/g, "").slice(0, 4);
                     setExpiry(v.length > 2 ? v.slice(0, 2) + "/" + v.slice(2) : v);
+                    if (errors.expiry) setErrors({ ...errors, expiry: "" });
                   }} placeholder="12/28" className="w-full bg-transparent outline-none" />
                 </Field>
-                <Field label="CVV">
-                  <input type="password" maxLength={4} value={cvv} onChange={(e) => setCvv(e.target.value.replace(/\D/g, ""))} placeholder="•••" className="w-full bg-transparent outline-none" />
+                <Field label="CVV" error={errors.cvv}>
+                  <input type="password" maxLength={4} value={cvv} onChange={(e) => { setCvv(e.target.value.replace(/\D/g, "")); if (errors.cvv) setErrors({ ...errors, cvv: "" }); }} placeholder="•••" className="w-full bg-transparent outline-none" />
                 </Field>
               </div>
               <PayBtn onClick={proceedToOtp} amount={request.amount} />
