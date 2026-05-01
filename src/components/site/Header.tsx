@@ -6,12 +6,12 @@ import alarLogo from "@/assets/alar-solutions-logo.jpg";
 
 const navItems = [
   { label: "Loans", href: "#loans" },
-  { label: "Credit Cards", href: "#cards" },
+  { label: "Cards", href: "#cards" },
   { label: "Credit Score", href: "#credit-score" },
   { label: "Investments", href: "#investments" },
   { label: "Calculators", href: "#calculator" },
   { label: "Insurance", href: "#insurance" },
-  { label: "Recharge & Bills", href: "#recharge" },
+  { label: "Recharge", href: "#recharge" },
 ];
 
 export function Header({ onSignIn, onGetStarted, onQR, onSearch }: {
@@ -54,13 +54,13 @@ export function Header({ onSignIn, onGetStarted, onQR, onSearch }: {
             </div>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1">
+          {/* Desktop Nav — single line, no wrap */}
+          <nav className="hidden lg:flex items-center gap-0.5 flex-nowrap">
             {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className="relative px-3 py-2 text-sm font-semibold text-foreground/80 hover:text-primary transition-colors group"
+                className="relative whitespace-nowrap px-3 py-2 text-sm font-semibold text-foreground/80 hover:text-primary transition-colors group"
               >
                 {item.label}
                 <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-gradient-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-full" />
