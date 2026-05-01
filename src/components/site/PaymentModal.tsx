@@ -42,24 +42,56 @@ export function PaymentModal({
   const [wallet, setWallet] = useState(wallets[0]);
   const [otp, setOtp] = useState("");
   const [txn, setTxn] = useState<TxnRecord | null>(null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   if (!open || !request) return null;
 
   const reset = () => {
     setStep("method"); setMethod("card"); setCardNumber(""); setCardName("");
-    setExpiry(""); setCvv(""); setUpiId(""); setOtp(""); setTxn(null);
+    setExpiry(""); setCvv(""); setUpiId(""); setOtp(""); setTxn(null); setErrors({});
   };
   const close = () => { reset(); onClose(); };
 
+  const validateExpiry = (v: string) => {
+    if (!/^\d{2}\/\d{2}$/.test(v)) return "Use MM/YY format";
+    const [mm, yy] = v.split("/").map(Number);
+    if (mm < 1 || mm > 12) return "Invalid month";
+    const now = new Date();
+    const curYY = now.getFullYear() % 100;
+    const curMM = now.getMonth() + 1;
+    if (yy < curYY || (yy === curYY && mm < curMM)) return "Card has expired";
+    return "";
+  };
+
   const proceedToOtp = () => {
-    // simple validation per method
-    if (method === "card" && (cardNumber.replace(/\s/g, "").length < 12 || !cardName || expiry.length < 4 || cvv.length < 3)) return;
-    if (method === "upi" && !upiId.includes("@")) return;
+    const e: Record<string, string> = {};
+    if (method === "card") {
+      const num = cardNumber.replace(/\s/g, "");
+      if (!num) e.cardNumber = "Card number is required";
+      else if (num.length < 13 || num.length > 16) e.cardNumber = "Enter a valid 13–16 digit card number";
+      if (!cardName.trim()) e.cardName = "Cardholder name is required";
+      else if (cardName.trim().length < 3) e.cardName = "Name must be at least 3 characters";
+      else if (!/^[A-Za-z\s]+$/.test(cardName.trim())) e.cardName = "Name can only contain letters";
+      const expErr = validateExpiry(expiry);
+      if (expErr) e.expiry = expErr;
+      if (!cvv) e.cvv = "CVV is required";
+      else if (cvv.length < 3) e.cvv = "CVV must be 3–4 digits";
+    }
+    if (method === "upi") {
+      if (!upiId) e.upiId = "UPI ID is required";
+      else if (!/^[\w.\-]{2,}@[a-zA-Z]{2,}$/.test(upiId)) e.upiId = "Enter a valid UPI ID (e.g. name@okhdfcbank)";
+    }
+    setErrors(e);
+    if (Object.keys(e).length > 0) return;
     setStep("otp");
   };
 
   const verifyAndPay = () => {
-    if (otp.length < 4) return;
+    if (otp.length !== 6) {
+      setErrors({ otp: "Enter the full 6-digit OTP" });
+      return;
+    }
+    setErrors({});
     setStep("processing");
     setTimeout(() => {
       const t: TxnRecord = {
