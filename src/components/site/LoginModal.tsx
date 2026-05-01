@@ -192,8 +192,8 @@ export function LoginModal({ open, onClose, onSuccess }: {
               {/* Sign-up extra fields */}
               {mode === "signup" && (
                 <>
-                  <Field icon={User} placeholder="Full name" value={name} onChange={setName} />
-                  {method !== "phone" && <Field icon={Phone} placeholder="+91 mobile number" value={phone} onChange={setPhone} />}
+                  <Field icon={User} placeholder="Full name" value={name} onChange={(v) => { setName(v); if (errors.name) setErrors({ ...errors, name: "" }); }} error={errors.name} />
+                  {method !== "phone" && <Field icon={Phone} placeholder="+91 mobile number" value={phone} onChange={(v) => { setPhone(v); if (errors.phone) setErrors({ ...errors, phone: "" }); }} error={errors.phone} />}
                 </>
               )}
 
@@ -202,32 +202,39 @@ export function LoginModal({ open, onClose, onSuccess }: {
                 icon={methodConfig[method].icon}
                 placeholder={methodConfig[method].placeholder}
                 value={identifier}
-                onChange={setIdentifier}
+                onChange={(v) => { setIdentifier(v); if (errors.identifier) setErrors({ ...errors, identifier: "" }); }}
+                error={errors.identifier}
               />
 
               {/* Password (sign-in email only) */}
               {mode === "signin" && method === "email" && (
-                <div className="relative mb-3">
-                  <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                  <input
-                    type={showPwd ? "text" : "password"}
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full rounded-xl border border-border pl-10 pr-10 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
-                  />
-                  <button onClick={() => setShowPwd(s => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary">
-                    {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}
-                  </button>
+                <div className="mb-3">
+                  <div className="relative">
+                    <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                    <input
+                      type={showPwd ? "text" : "password"}
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => { setPassword(e.target.value); if (errors.password) setErrors({ ...errors, password: "" }); }}
+                      className={`w-full rounded-xl border pl-10 pr-10 py-3 text-sm focus:outline-none focus:ring-2 ${errors.password ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-border focus:border-primary focus:ring-primary/20"}`}
+                    />
+                    <button onClick={() => setShowPwd(s => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary">
+                      {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                  </div>
+                  {errors.password && <p className="mt-1 text-xs text-red-500 font-semibold">⚠ {errors.password}</p>}
                 </div>
               )}
 
               {/* T&C for signup */}
               {mode === "signup" && (
-                <label className="flex items-start gap-2 text-xs text-muted-foreground my-3 cursor-pointer">
-                  <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} className="mt-0.5 accent-primary" />
-                  <span>I agree to the <span className="text-primary font-semibold">Terms</span> & <span className="text-primary font-semibold">Privacy Policy</span></span>
-                </label>
+                <>
+                  <label className="flex items-start gap-2 text-xs text-muted-foreground my-3 cursor-pointer">
+                    <input type="checkbox" checked={agree} onChange={(e) => { setAgree(e.target.checked); if (errors.agree) setErrors({ ...errors, agree: "" }); }} className="mt-0.5 accent-primary" />
+                    <span>I agree to the <span className="text-primary font-semibold">Terms</span> & <span className="text-primary font-semibold">Privacy Policy</span></span>
+                  </label>
+                  {errors.agree && <p className="-mt-2 mb-2 text-xs text-red-500 font-semibold">⚠ {errors.agree}</p>}
+                </>
               )}
 
               {mode === "signin" && (
@@ -238,8 +245,7 @@ export function LoginModal({ open, onClose, onSuccess }: {
 
               <button
                 onClick={sendOtp}
-                disabled={!identifier || (mode === "signup" && (!name || !agree))}
-                className="w-full rounded-xl bg-gradient-primary text-white font-bold py-3.5 shadow-glow hover:scale-[1.02] transition disabled:opacity-50 disabled:hover:scale-100"
+                className="w-full rounded-xl bg-gradient-primary text-white font-bold py-3.5 shadow-glow hover:scale-[1.02] transition"
               >
                 {mode === "signin" ? "Sign In" : "Create Account"} →
               </button>
