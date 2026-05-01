@@ -42,24 +42,56 @@ export function PaymentModal({
   const [wallet, setWallet] = useState(wallets[0]);
   const [otp, setOtp] = useState("");
   const [txn, setTxn] = useState<TxnRecord | null>(null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   if (!open || !request) return null;
 
   const reset = () => {
     setStep("method"); setMethod("card"); setCardNumber(""); setCardName("");
-    setExpiry(""); setCvv(""); setUpiId(""); setOtp(""); setTxn(null);
+    setExpiry(""); setCvv(""); setUpiId(""); setOtp(""); setTxn(null); setErrors({});
   };
   const close = () => { reset(); onClose(); };
 
+  const validateExpiry = (v: string) => {
+    if (!/^\d{2}\/\d{2}$/.test(v)) return "Use MM/YY format";
+    const [mm, yy] = v.split("/").map(Number);
+    if (mm < 1 || mm > 12) return "Invalid month";
+    const now = new Date();
+    const curYY = now.getFullYear() % 100;
+    const curMM = now.getMonth() + 1;
+    if (yy < curYY || (yy === curYY && mm < curMM)) return "Card has expired";
+    return "";
+  };
+
   const proceedToOtp = () => {
-    // simple validation per method
-    if (method === "card" && (cardNumber.replace(/\s/g, "").length < 12 || !cardName || expiry.length < 4 || cvv.length < 3)) return;
-    if (method === "upi" && !upiId.includes("@")) return;
+    const e: Record<string, string> = {};
+    if (method === "card") {
+      const num = cardNumber.replace(/\s/g, "");
+      if (!num) e.cardNumber = "Card number is required";
+      else if (num.length < 13 || num.length > 16) e.cardNumber = "Enter a valid 13–16 digit card number";
+      if (!cardName.trim()) e.cardName = "Cardholder name is required";
+      else if (cardName.trim().length < 3) e.cardName = "Name must be at least 3 characters";
+      else if (!/^[A-Za-z\s]+$/.test(cardName.trim())) e.cardName = "Name can only contain letters";
+      const expErr = validateExpiry(expiry);
+      if (expErr) e.expiry = expErr;
+      if (!cvv) e.cvv = "CVV is required";
+      else if (cvv.length < 3) e.cvv = "CVV must be 3–4 digits";
+    }
+    if (method === "upi") {
+      if (!upiId) e.upiId = "UPI ID is required";
+      else if (!/^[\w.\-]{2,}@[a-zA-Z]{2,}$/.test(upiId)) e.upiId = "Enter a valid UPI ID (e.g. name@okhdfcbank)";
+    }
+    setErrors(e);
+    if (Object.keys(e).length > 0) return;
     setStep("otp");
   };
 
   const verifyAndPay = () => {
-    if (otp.length < 4) return;
+    if (otp.length !== 6) {
+      setErrors({ otp: "Enter the full 6-digit OTP" });
+      return;
+    }
+    setErrors({});
     setStep("processing");
     setTimeout(() => {
       const t: TxnRecord = {
@@ -204,21 +236,22 @@ export function PaymentModal({
                 ))}
               </div>
 
-              <Field label="Card Number">
-                <input value={cardNumber} onChange={(e) => setCardNumber(formatCard(e.target.value))} placeholder="1234 5678 9012 3456" className="w-full bg-transparent outline-none font-mono" />
+              <Field label="Card Number" error={errors.cardNumber}>
+                <input value={cardNumber} onChange={(e) => { setCardNumber(formatCard(e.target.value)); if (errors.cardNumber) setErrors({ ...errors, cardNumber: "" }); }} placeholder="1234 5678 9012 3456" className="w-full bg-transparent outline-none font-mono" />
               </Field>
-              <Field label="Cardholder Name">
-                <input value={cardName} onChange={(e) => setCardName(e.target.value.toUpperCase())} placeholder="NAME ON CARD" className="w-full bg-transparent outline-none uppercase" />
+              <Field label="Cardholder Name" error={errors.cardName}>
+                <input value={cardName} onChange={(e) => { setCardName(e.target.value.toUpperCase()); if (errors.cardName) setErrors({ ...errors, cardName: "" }); }} placeholder="NAME ON CARD" className="w-full bg-transparent outline-none uppercase" />
               </Field>
               <div className="grid grid-cols-2 gap-3">
-                <Field label="Expiry (MM/YY)">
+                <Field label="Expiry (MM/YY)" error={errors.expiry}>
                   <input value={expiry} onChange={(e) => {
                     const v = e.target.value.replace(/\D/g, "").slice(0, 4);
                     setExpiry(v.length > 2 ? v.slice(0, 2) + "/" + v.slice(2) : v);
+                    if (errors.expiry) setErrors({ ...errors, expiry: "" });
                   }} placeholder="12/28" className="w-full bg-transparent outline-none" />
                 </Field>
-                <Field label="CVV">
-                  <input type="password" maxLength={4} value={cvv} onChange={(e) => setCvv(e.target.value.replace(/\D/g, ""))} placeholder="•••" className="w-full bg-transparent outline-none" />
+                <Field label="CVV" error={errors.cvv}>
+                  <input type="password" maxLength={4} value={cvv} onChange={(e) => { setCvv(e.target.value.replace(/\D/g, "")); if (errors.cvv) setErrors({ ...errors, cvv: "" }); }} placeholder="•••" className="w-full bg-transparent outline-none" />
                 </Field>
               </div>
               <PayBtn onClick={proceedToOtp} amount={request.amount} />
@@ -232,8 +265,8 @@ export function PaymentModal({
                   <div key={a} className="rounded-2xl border-2 border-border p-3 text-center text-xs font-bold hover:border-primary/40 cursor-pointer">{a}</div>
                 ))}
               </div>
-              <Field label="Enter UPI ID">
-                <input value={upiId} onChange={(e) => setUpiId(e.target.value)} placeholder="yourname@okhdfcbank" className="w-full bg-transparent outline-none" />
+              <Field label="Enter UPI ID" error={errors.upiId}>
+                <input value={upiId} onChange={(e) => { setUpiId(e.target.value); if (errors.upiId) setErrors({ ...errors, upiId: "" }); }} placeholder="yourname@okhdfcbank" className="w-full bg-transparent outline-none" />
               </Field>
               <p className="text-xs text-muted-foreground">A collect request will be sent to your UPI app.</p>
               <PayBtn onClick={proceedToOtp} amount={request.amount} />
@@ -272,14 +305,15 @@ export function PaymentModal({
               <p className="text-xs text-muted-foreground">A 6-digit code was sent to your registered mobile number.</p>
               <input
                 value={otp}
-                onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                onChange={(e) => { setOtp(e.target.value.replace(/\D/g, "").slice(0, 6)); if (errors.otp) setErrors({ ...errors, otp: "" }); }}
                 placeholder="••••••"
-                className="w-full text-center text-2xl tracking-[0.6em] font-bold py-3 rounded-2xl border-2 border-border focus:border-primary outline-none"
+                className={`w-full text-center text-2xl tracking-[0.6em] font-bold py-3 rounded-2xl border-2 outline-none ${errors.otp ? "border-red-500" : "border-border focus:border-primary"}`}
               />
+              {errors.otp && <p className="text-xs text-red-500 font-semibold">{errors.otp}</p>}
               <button onClick={verifyAndPay} className="w-full rounded-full bg-gradient-primary text-white font-bold py-3.5 shadow-glow hover:scale-[1.02] transition">
                 Verify & Pay ₹{request.amount.toLocaleString("en-IN")}
               </button>
-              <p className="text-[11px] text-muted-foreground">Use any 4–6 digit code for this demo.</p>
+              <p className="text-[11px] text-muted-foreground">Use any 6-digit code for this demo.</p>
             </div>
           )}
 
@@ -331,11 +365,12 @@ export function PaymentModal({
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children, error }: { label: string; children: React.ReactNode; error?: string }) {
   return (
     <label className="block">
       <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{label}</span>
-      <div className="mt-1 px-4 py-3 rounded-2xl border-2 border-border focus-within:border-primary transition">{children}</div>
+      <div className={`mt-1 px-4 py-3 rounded-2xl border-2 transition ${error ? "border-red-500" : "border-border focus-within:border-primary"}`}>{children}</div>
+      {error && <p className="mt-1 text-xs text-red-500 font-semibold">⚠ {error}</p>}
     </label>
   );
 }

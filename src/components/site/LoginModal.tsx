@@ -20,23 +20,59 @@ export function LoginModal({ open, onClose, onSuccess }: {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [agree, setAgree] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   if (!open) return null;
 
   const reset = () => {
     setStep("form"); setIdentifier(""); setPassword(""); setOtp("");
-    setName(""); setPhone(""); setAgree(false); setMethod("email"); setMode("signin");
+    setName(""); setPhone(""); setAgree(false); setMethod("email"); setMode("signin"); setErrors({});
   };
   const close = () => { reset(); onClose(); };
 
+  const validateIdentifier = (m: Method, v: string): string => {
+    if (!v.trim()) return `${methodConfig[m].label} is required`;
+    if (m === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return "Enter a valid email address";
+    if (m === "phone") {
+      const digits = v.replace(/\D/g, "");
+      if (digits.length < 10 || digits.length > 13) return "Enter a valid 10-digit mobile number";
+    }
+    if (m === "pan" && !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(v.toUpperCase())) return "Enter a valid PAN (e.g. ABCDE1234F)";
+    return "";
+  };
+
   const sendOtp = () => {
-    if (mode === "signup" && (!name || !agree)) return;
-    if (!identifier && method !== "google") return;
+    const e: Record<string, string> = {};
+    if (mode === "signup") {
+      if (!name.trim()) e.name = "Full name is required";
+      else if (name.trim().length < 3) e.name = "Name must be at least 3 characters";
+      else if (!/^[A-Za-z\s]+$/.test(name.trim())) e.name = "Name can only contain letters";
+      if (method !== "phone") {
+        const digits = phone.replace(/\D/g, "");
+        if (!phone) e.phone = "Mobile number is required";
+        else if (digits.length < 10 || digits.length > 13) e.phone = "Enter a valid 10-digit mobile number";
+      }
+      if (!agree) e.agree = "You must accept the Terms & Privacy Policy";
+    }
+    if (method !== "google") {
+      const idErr = validateIdentifier(method, identifier);
+      if (idErr) e.identifier = idErr;
+    }
+    if (mode === "signin" && method === "email") {
+      if (!password) e.password = "Password is required";
+      else if (password.length < 6) e.password = "Password must be at least 6 characters";
+    }
+    setErrors(e);
+    if (Object.keys(e).length > 0) return;
     setStep("otp");
   };
 
   const verifyOtp = () => {
-    if (otp.length < 4) return;
+    if (otp.length !== 6) {
+      setErrors({ otp: "Enter the full 6-digit OTP" });
+      return;
+    }
+    setErrors({});
     setStep("success");
     const displayName = name || (identifier.includes("@") ? identifier.split("@")[0] : "User");
     setTimeout(() => { onSuccess(displayName); reset(); onClose(); }, 1400);
@@ -156,8 +192,8 @@ export function LoginModal({ open, onClose, onSuccess }: {
               {/* Sign-up extra fields */}
               {mode === "signup" && (
                 <>
-                  <Field icon={User} placeholder="Full name" value={name} onChange={setName} />
-                  {method !== "phone" && <Field icon={Phone} placeholder="+91 mobile number" value={phone} onChange={setPhone} />}
+                  <Field icon={User} placeholder="Full name" value={name} onChange={(v) => { setName(v); if (errors.name) setErrors({ ...errors, name: "" }); }} error={errors.name} />
+                  {method !== "phone" && <Field icon={Phone} placeholder="+91 mobile number" value={phone} onChange={(v) => { setPhone(v); if (errors.phone) setErrors({ ...errors, phone: "" }); }} error={errors.phone} />}
                 </>
               )}
 
@@ -166,32 +202,39 @@ export function LoginModal({ open, onClose, onSuccess }: {
                 icon={methodConfig[method].icon}
                 placeholder={methodConfig[method].placeholder}
                 value={identifier}
-                onChange={setIdentifier}
+                onChange={(v) => { setIdentifier(v); if (errors.identifier) setErrors({ ...errors, identifier: "" }); }}
+                error={errors.identifier}
               />
 
               {/* Password (sign-in email only) */}
               {mode === "signin" && method === "email" && (
-                <div className="relative mb-3">
-                  <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                  <input
-                    type={showPwd ? "text" : "password"}
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full rounded-xl border border-border pl-10 pr-10 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
-                  />
-                  <button onClick={() => setShowPwd(s => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary">
-                    {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}
-                  </button>
+                <div className="mb-3">
+                  <div className="relative">
+                    <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                    <input
+                      type={showPwd ? "text" : "password"}
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => { setPassword(e.target.value); if (errors.password) setErrors({ ...errors, password: "" }); }}
+                      className={`w-full rounded-xl border pl-10 pr-10 py-3 text-sm focus:outline-none focus:ring-2 ${errors.password ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-border focus:border-primary focus:ring-primary/20"}`}
+                    />
+                    <button onClick={() => setShowPwd(s => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary">
+                      {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                  </div>
+                  {errors.password && <p className="mt-1 text-xs text-red-500 font-semibold">⚠ {errors.password}</p>}
                 </div>
               )}
 
               {/* T&C for signup */}
               {mode === "signup" && (
-                <label className="flex items-start gap-2 text-xs text-muted-foreground my-3 cursor-pointer">
-                  <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} className="mt-0.5 accent-primary" />
-                  <span>I agree to the <span className="text-primary font-semibold">Terms</span> & <span className="text-primary font-semibold">Privacy Policy</span></span>
-                </label>
+                <>
+                  <label className="flex items-start gap-2 text-xs text-muted-foreground my-3 cursor-pointer">
+                    <input type="checkbox" checked={agree} onChange={(e) => { setAgree(e.target.checked); if (errors.agree) setErrors({ ...errors, agree: "" }); }} className="mt-0.5 accent-primary" />
+                    <span>I agree to the <span className="text-primary font-semibold">Terms</span> & <span className="text-primary font-semibold">Privacy Policy</span></span>
+                  </label>
+                  {errors.agree && <p className="-mt-2 mb-2 text-xs text-red-500 font-semibold">⚠ {errors.agree}</p>}
+                </>
               )}
 
               {mode === "signin" && (
@@ -202,8 +245,7 @@ export function LoginModal({ open, onClose, onSuccess }: {
 
               <button
                 onClick={sendOtp}
-                disabled={!identifier || (mode === "signup" && (!name || !agree))}
-                className="w-full rounded-xl bg-gradient-primary text-white font-bold py-3.5 shadow-glow hover:scale-[1.02] transition disabled:opacity-50 disabled:hover:scale-100"
+                className="w-full rounded-xl bg-gradient-primary text-white font-bold py-3.5 shadow-glow hover:scale-[1.02] transition"
               >
                 {mode === "signin" ? "Sign In" : "Create Account"} →
               </button>
@@ -234,14 +276,14 @@ export function LoginModal({ open, onClose, onSuccess }: {
                 maxLength={6}
                 placeholder="• • • • • •"
                 value={otp}
-                onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                className="w-full rounded-xl border-2 border-border px-4 py-4 text-center text-2xl font-bold tracking-[0.5em] focus:outline-none focus:border-primary"
+                onChange={(e) => { setOtp(e.target.value.replace(/\D/g, "")); if (errors.otp) setErrors({ ...errors, otp: "" }); }}
+                className={`w-full rounded-xl border-2 px-4 py-4 text-center text-2xl font-bold tracking-[0.5em] focus:outline-none ${errors.otp ? "border-red-500" : "border-border focus:border-primary"}`}
                 autoFocus
               />
+              {errors.otp && <p className="mt-2 text-xs text-red-500 font-semibold text-center">⚠ {errors.otp}</p>}
               <button
                 onClick={verifyOtp}
-                disabled={otp.length < 4}
-                className="mt-4 w-full rounded-xl bg-gradient-primary text-white font-bold py-3.5 shadow-glow disabled:opacity-50"
+                className="mt-4 w-full rounded-xl bg-gradient-primary text-white font-bold py-3.5 shadow-glow"
               >
                 Verify & Continue
               </button>
@@ -265,19 +307,22 @@ export function LoginModal({ open, onClose, onSuccess }: {
   );
 }
 
-function Field({ icon: Icon, placeholder, value, onChange }: {
-  icon: any; placeholder: string; value: string; onChange: (v: string) => void;
+function Field({ icon: Icon, placeholder, value, onChange, error }: {
+  icon: any; placeholder: string; value: string; onChange: (v: string) => void; error?: string;
 }) {
   return (
-    <div className="relative mb-3">
-      <Icon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-      <input
-        type="text"
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-xl border border-border pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
-      />
+    <div className="mb-3">
+      <div className="relative">
+        <Icon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+        <input
+          type="text"
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className={`w-full rounded-xl border pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 ${error ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-border focus:border-primary focus:ring-primary/20"}`}
+        />
+      </div>
+      {error && <p className="mt-1 text-xs text-red-500 font-semibold">⚠ {error}</p>}
     </div>
   );
 }
