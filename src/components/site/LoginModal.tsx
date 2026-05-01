@@ -307,19 +307,22 @@ export function LoginModal({ open, onClose, onSuccess }: {
   );
 }
 
-function Field({ icon: Icon, placeholder, value, onChange }: {
-  icon: any; placeholder: string; value: string; onChange: (v: string) => void;
+function Field({ icon: Icon, placeholder, value, onChange, error }: {
+  icon: any; placeholder: string; value: string; onChange: (v: string) => void; error?: string;
 }) {
   return (
-    <div className="relative mb-3">
-      <Icon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-      <input
-        type="text"
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-xl border border-border pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
-      />
+    <div className="mb-3">
+      <div className="relative">
+        <Icon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+        <input
+          type="text"
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className={`w-full rounded-xl border pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 ${error ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-border focus:border-primary focus:ring-primary/20"}`}
+        />
+      </div>
+      {error && <p className="mt-1 text-xs text-red-500 font-semibold">⚠ {error}</p>}
     </div>
   );
 }
