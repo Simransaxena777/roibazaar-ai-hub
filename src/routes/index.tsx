@@ -8,6 +8,7 @@ import { OfferMarquee } from "@/components/site/OfferMarquee";
 import { Stats } from "@/components/site/Stats";
 import { SpecialOffers } from "@/components/site/SpecialOffers";
 import { Products } from "@/components/site/Products";
+import { CreditCards } from "@/components/site/CreditCards";
 import { CreditScore } from "@/components/site/CreditScore";
 import { Investments } from "@/components/site/Investments";
 import { Insurance } from "@/components/site/Insurance";
@@ -99,7 +100,8 @@ function Index() {
       <OfferMarquee />
       <Stats />
       <SpecialOffers onAction={(label) => handleAction(label)} />
-      <Products onAction={(product, cta) => handleAction(cta, product)} />
+        <Products onAction={(product, cta) => handleAction(cta, product)} />
+        <CreditCards onAction={(label, item) => handleAction(label, item)} />
       <CreditScore onAction={(label) => handleAction(label)} />
       <Investments onAction={(label, item) => handleAction(label, item)} />
       <Insurance onAction={(label, item) => handleAction(label, item)} />
