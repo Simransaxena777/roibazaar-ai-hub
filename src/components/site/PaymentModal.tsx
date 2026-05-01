@@ -365,11 +365,12 @@ export function PaymentModal({
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children, error }: { label: string; children: React.ReactNode; error?: string }) {
   return (
     <label className="block">
       <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{label}</span>
-      <div className="mt-1 px-4 py-3 rounded-2xl border-2 border-border focus-within:border-primary transition">{children}</div>
+      <div className={`mt-1 px-4 py-3 rounded-2xl border-2 transition ${error ? "border-red-500" : "border-border focus-within:border-primary"}`}>{children}</div>
+      {error && <p className="mt-1 text-xs text-red-500 font-semibold">⚠ {error}</p>}
     </label>
   );
 }
