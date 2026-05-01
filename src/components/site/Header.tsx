@@ -6,12 +6,12 @@ import alarLogo from "@/assets/alar-solutions-logo.jpg";
 
 const navItems = [
   { label: "Loans", href: "#loans" },
-  { label: "Credit Cards", href: "#cards" },
+  { label: "Cards", href: "#cards" },
   { label: "Credit Score", href: "#credit-score" },
   { label: "Investments", href: "#investments" },
   { label: "Calculators", href: "#calculator" },
   { label: "Insurance", href: "#insurance" },
-  { label: "Recharge & Bills", href: "#recharge" },
+  { label: "Recharge", href: "#recharge" },
 ];
 
 export function Header({ onSignIn, onGetStarted, onQR, onSearch }: {
