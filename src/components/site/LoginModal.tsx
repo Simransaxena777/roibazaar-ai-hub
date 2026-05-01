@@ -20,23 +20,59 @@ export function LoginModal({ open, onClose, onSuccess }: {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [agree, setAgree] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   if (!open) return null;
 
   const reset = () => {
     setStep("form"); setIdentifier(""); setPassword(""); setOtp("");
-    setName(""); setPhone(""); setAgree(false); setMethod("email"); setMode("signin");
+    setName(""); setPhone(""); setAgree(false); setMethod("email"); setMode("signin"); setErrors({});
   };
   const close = () => { reset(); onClose(); };
 
+  const validateIdentifier = (m: Method, v: string): string => {
+    if (!v.trim()) return `${methodConfig[m].label} is required`;
+    if (m === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return "Enter a valid email address";
+    if (m === "phone") {
+      const digits = v.replace(/\D/g, "");
+      if (digits.length < 10 || digits.length > 13) return "Enter a valid 10-digit mobile number";
+    }
+    if (m === "pan" && !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(v.toUpperCase())) return "Enter a valid PAN (e.g. ABCDE1234F)";
+    return "";
+  };
+
   const sendOtp = () => {
-    if (mode === "signup" && (!name || !agree)) return;
-    if (!identifier && method !== "google") return;
+    const e: Record<string, string> = {};
+    if (mode === "signup") {
+      if (!name.trim()) e.name = "Full name is required";
+      else if (name.trim().length < 3) e.name = "Name must be at least 3 characters";
+      else if (!/^[A-Za-z\s]+$/.test(name.trim())) e.name = "Name can only contain letters";
+      if (method !== "phone") {
+        const digits = phone.replace(/\D/g, "");
+        if (!phone) e.phone = "Mobile number is required";
+        else if (digits.length < 10 || digits.length > 13) e.phone = "Enter a valid 10-digit mobile number";
+      }
+      if (!agree) e.agree = "You must accept the Terms & Privacy Policy";
+    }
+    if (method !== "google") {
+      const idErr = validateIdentifier(method, identifier);
+      if (idErr) e.identifier = idErr;
+    }
+    if (mode === "signin" && method === "email") {
+      if (!password) e.password = "Password is required";
+      else if (password.length < 6) e.password = "Password must be at least 6 characters";
+    }
+    setErrors(e);
+    if (Object.keys(e).length > 0) return;
     setStep("otp");
   };
 
   const verifyOtp = () => {
-    if (otp.length < 4) return;
+    if (otp.length !== 6) {
+      setErrors({ otp: "Enter the full 6-digit OTP" });
+      return;
+    }
+    setErrors({});
     setStep("success");
     const displayName = name || (identifier.includes("@") ? identifier.split("@")[0] : "User");
     setTimeout(() => { onSuccess(displayName); reset(); onClose(); }, 1400);
