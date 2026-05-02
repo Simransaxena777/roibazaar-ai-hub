@@ -197,7 +197,7 @@ export function Hero({ onCompare, onTalk }: { onCompare: () => void; onTalk: () 
             {/* Card 1 */}
             <div className="absolute right-0 top-0 w-60 rounded-2xl bg-white p-5 shadow-card animate-float" style={{ animationDelay: "1s" }}>
               <div className="h-12 w-12 rounded-xl bg-gradient-purple flex items-center justify-center text-white shadow-glow-pink mb-3">
-                <slide.cards[0].icon size={22} />
+                <Card0Icon size={22} />
               </div>
               <p className="font-display font-bold text-foreground">{slide.cards[0].title}</p>
               <p className={`text-xs mt-1 ${slide.cards[0].valueClass ?? "text-muted-foreground"}`}>{slide.cards[0].value}</p>
@@ -216,7 +216,7 @@ export function Hero({ onCompare, onTalk }: { onCompare: () => void; onTalk: () 
             {/* Card 2 */}
             <div className="absolute right-2 bottom-12 w-60 rounded-2xl bg-white p-5 shadow-card animate-float" style={{ animationDelay: "2s" }}>
               <div className="h-12 w-12 rounded-xl bg-gradient-purple flex items-center justify-center text-white shadow-glow-pink mb-3">
-                <slide.cards[1].icon size={22} />
+                <Card1Icon size={22} />
               </div>
               <p className="font-display font-bold text-foreground">{slide.cards[1].title}</p>
               <p className={`font-extrabold text-xl mt-1 ${slide.cards[1].valueClass ?? "text-foreground"}`}>{slide.cards[1].value}</p>
