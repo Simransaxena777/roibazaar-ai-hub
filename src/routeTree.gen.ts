@@ -16,6 +16,7 @@ import { Route as InsuranceRouteImport } from './routes/insurance'
 import { Route as CreditScoreRouteImport } from './routes/credit-score'
 import { Route as CardsRouteImport } from './routes/cards'
 import { Route as CalculatorRouteImport } from './routes/calculator'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as IndexRouteImport } from './routes/index'
 
 const RechargeRoute = RechargeRouteImport.update({
@@ -53,6 +54,11 @@ const CalculatorRoute = CalculatorRouteImport.update({
   path: '/calculator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -61,6 +67,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/blog': typeof BlogRoute
   '/calculator': typeof CalculatorRoute
   '/cards': typeof CardsRoute
   '/credit-score': typeof CreditScoreRoute
@@ -71,6 +78,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/blog': typeof BlogRoute
   '/calculator': typeof CalculatorRoute
   '/cards': typeof CardsRoute
   '/credit-score': typeof CreditScoreRoute
@@ -82,6 +90,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/blog': typeof BlogRoute
   '/calculator': typeof CalculatorRoute
   '/cards': typeof CardsRoute
   '/credit-score': typeof CreditScoreRoute
@@ -94,6 +103,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/blog'
     | '/calculator'
     | '/cards'
     | '/credit-score'
@@ -104,6 +114,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/blog'
     | '/calculator'
     | '/cards'
     | '/credit-score'
@@ -114,6 +125,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/blog'
     | '/calculator'
     | '/cards'
     | '/credit-score'
@@ -125,6 +137,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BlogRoute: typeof BlogRoute
   CalculatorRoute: typeof CalculatorRoute
   CardsRoute: typeof CardsRoute
   CreditScoreRoute: typeof CreditScoreRoute
@@ -185,6 +198,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -197,6 +217,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BlogRoute: BlogRoute,
   CalculatorRoute: CalculatorRoute,
   CardsRoute: CardsRoute,
   CreditScoreRoute: CreditScoreRoute,
