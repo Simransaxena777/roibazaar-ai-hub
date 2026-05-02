@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoansRouteImport } from './routes/loans'
+import { Route as CreditScoreRouteImport } from './routes/credit-score'
 import { Route as CardsRouteImport } from './routes/cards'
 import { Route as IndexRouteImport } from './routes/index'
 
 const LoansRoute = LoansRouteImport.update({
   id: '/loans',
   path: '/loans',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreditScoreRoute = CreditScoreRouteImport.update({
+  id: '/credit-score',
+  path: '/credit-score',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CardsRoute = CardsRouteImport.update({
@@ -32,30 +38,34 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cards': typeof CardsRoute
+  '/credit-score': typeof CreditScoreRoute
   '/loans': typeof LoansRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cards': typeof CardsRoute
+  '/credit-score': typeof CreditScoreRoute
   '/loans': typeof LoansRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cards': typeof CardsRoute
+  '/credit-score': typeof CreditScoreRoute
   '/loans': typeof LoansRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cards' | '/loans'
+  fullPaths: '/' | '/cards' | '/credit-score' | '/loans'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cards' | '/loans'
-  id: '__root__' | '/' | '/cards' | '/loans'
+  to: '/' | '/cards' | '/credit-score' | '/loans'
+  id: '__root__' | '/' | '/cards' | '/credit-score' | '/loans'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CardsRoute: typeof CardsRoute
+  CreditScoreRoute: typeof CreditScoreRoute
   LoansRoute: typeof LoansRoute
 }
 
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/loans'
       fullPath: '/loans'
       preLoaderRoute: typeof LoansRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/credit-score': {
+      id: '/credit-score'
+      path: '/credit-score'
+      fullPath: '/credit-score'
+      preLoaderRoute: typeof CreditScoreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cards': {
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CardsRoute: CardsRoute,
+  CreditScoreRoute: CreditScoreRoute,
   LoansRoute: LoansRoute,
 }
 export const routeTree = rootRouteImport
