@@ -114,14 +114,15 @@ export function Header({ onSignIn, onGetStarted, onQR, onSearch }: {
           <div className="lg:hidden pb-4 animate-fade-up">
             <nav className="flex flex-col gap-1">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.label}
-                  href={item.href}
+                  to={item.to}
                   onClick={() => setMobileOpen(false)}
+                  activeProps={{ className: "text-primary bg-muted" }}
                   className="px-4 py-3 rounded-xl text-sm font-semibold hover:bg-muted hover:text-primary"
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
               <button onClick={onSignIn} className="mt-2 mx-4 py-3 rounded-xl border border-primary text-primary font-semibold">
                 Sign In
