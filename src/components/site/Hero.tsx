@@ -105,6 +105,8 @@ export function Hero({ onCompare, onTalk }: { onCompare: () => void; onTalk: () 
   }, [paused, total]);
 
   const slide = SLIDES[index];
+  const Card0Icon = slide.cards[0].icon;
+  const Card1Icon = slide.cards[1].icon;
   const goPrev = () => setIndex((i) => (i - 1 + total) % total);
   const goNext = () => setIndex((i) => (i + 1) % total);
 
