@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoansRouteImport } from './routes/loans'
 import { Route as InvestmentsRouteImport } from './routes/investments'
+import { Route as InsuranceRouteImport } from './routes/insurance'
 import { Route as CreditScoreRouteImport } from './routes/credit-score'
 import { Route as CardsRouteImport } from './routes/cards'
 import { Route as IndexRouteImport } from './routes/index'
@@ -23,6 +24,11 @@ const LoansRoute = LoansRouteImport.update({
 const InvestmentsRoute = InvestmentsRouteImport.update({
   id: '/investments',
   path: '/investments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsuranceRoute = InsuranceRouteImport.update({
+  id: '/insurance',
+  path: '/insurance',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CreditScoreRoute = CreditScoreRouteImport.update({
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cards': typeof CardsRoute
   '/credit-score': typeof CreditScoreRoute
+  '/insurance': typeof InsuranceRoute
   '/investments': typeof InvestmentsRoute
   '/loans': typeof LoansRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cards': typeof CardsRoute
   '/credit-score': typeof CreditScoreRoute
+  '/insurance': typeof InsuranceRoute
   '/investments': typeof InvestmentsRoute
   '/loans': typeof LoansRoute
 }
@@ -60,21 +68,42 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/cards': typeof CardsRoute
   '/credit-score': typeof CreditScoreRoute
+  '/insurance': typeof InsuranceRoute
   '/investments': typeof InvestmentsRoute
   '/loans': typeof LoansRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cards' | '/credit-score' | '/investments' | '/loans'
+  fullPaths:
+    | '/'
+    | '/cards'
+    | '/credit-score'
+    | '/insurance'
+    | '/investments'
+    | '/loans'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cards' | '/credit-score' | '/investments' | '/loans'
-  id: '__root__' | '/' | '/cards' | '/credit-score' | '/investments' | '/loans'
+  to:
+    | '/'
+    | '/cards'
+    | '/credit-score'
+    | '/insurance'
+    | '/investments'
+    | '/loans'
+  id:
+    | '__root__'
+    | '/'
+    | '/cards'
+    | '/credit-score'
+    | '/insurance'
+    | '/investments'
+    | '/loans'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CardsRoute: typeof CardsRoute
   CreditScoreRoute: typeof CreditScoreRoute
+  InsuranceRoute: typeof InsuranceRoute
   InvestmentsRoute: typeof InvestmentsRoute
   LoansRoute: typeof LoansRoute
 }
@@ -93,6 +122,13 @@ declare module '@tanstack/react-router' {
       path: '/investments'
       fullPath: '/investments'
       preLoaderRoute: typeof InvestmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insurance': {
+      id: '/insurance'
+      path: '/insurance'
+      fullPath: '/insurance'
+      preLoaderRoute: typeof InsuranceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/credit-score': {
@@ -123,6 +159,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CardsRoute: CardsRoute,
   CreditScoreRoute: CreditScoreRoute,
+  InsuranceRoute: InsuranceRoute,
   InvestmentsRoute: InvestmentsRoute,
   LoansRoute: LoansRoute,
 }
