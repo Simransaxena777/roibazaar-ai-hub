@@ -13,6 +13,7 @@ import { Route as RechargeRouteImport } from './routes/recharge'
 import { Route as LoansRouteImport } from './routes/loans'
 import { Route as InvestmentsRouteImport } from './routes/investments'
 import { Route as InsuranceRouteImport } from './routes/insurance'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as CreditScoreRouteImport } from './routes/credit-score'
 import { Route as CardsRouteImport } from './routes/cards'
 import { Route as CalculatorRouteImport } from './routes/calculator'
@@ -37,6 +38,11 @@ const InvestmentsRoute = InvestmentsRouteImport.update({
 const InsuranceRoute = InsuranceRouteImport.update({
   id: '/insurance',
   path: '/insurance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CreditScoreRoute = CreditScoreRouteImport.update({
@@ -71,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/calculator': typeof CalculatorRoute
   '/cards': typeof CardsRoute
   '/credit-score': typeof CreditScoreRoute
+  '/faq': typeof FaqRoute
   '/insurance': typeof InsuranceRoute
   '/investments': typeof InvestmentsRoute
   '/loans': typeof LoansRoute
@@ -82,6 +89,7 @@ export interface FileRoutesByTo {
   '/calculator': typeof CalculatorRoute
   '/cards': typeof CardsRoute
   '/credit-score': typeof CreditScoreRoute
+  '/faq': typeof FaqRoute
   '/insurance': typeof InsuranceRoute
   '/investments': typeof InvestmentsRoute
   '/loans': typeof LoansRoute
@@ -94,6 +102,7 @@ export interface FileRoutesById {
   '/calculator': typeof CalculatorRoute
   '/cards': typeof CardsRoute
   '/credit-score': typeof CreditScoreRoute
+  '/faq': typeof FaqRoute
   '/insurance': typeof InsuranceRoute
   '/investments': typeof InvestmentsRoute
   '/loans': typeof LoansRoute
@@ -107,6 +116,7 @@ export interface FileRouteTypes {
     | '/calculator'
     | '/cards'
     | '/credit-score'
+    | '/faq'
     | '/insurance'
     | '/investments'
     | '/loans'
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/calculator'
     | '/cards'
     | '/credit-score'
+    | '/faq'
     | '/insurance'
     | '/investments'
     | '/loans'
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/calculator'
     | '/cards'
     | '/credit-score'
+    | '/faq'
     | '/insurance'
     | '/investments'
     | '/loans'
@@ -141,6 +153,7 @@ export interface RootRouteChildren {
   CalculatorRoute: typeof CalculatorRoute
   CardsRoute: typeof CardsRoute
   CreditScoreRoute: typeof CreditScoreRoute
+  FaqRoute: typeof FaqRoute
   InsuranceRoute: typeof InsuranceRoute
   InvestmentsRoute: typeof InvestmentsRoute
   LoansRoute: typeof LoansRoute
@@ -175,6 +188,13 @@ declare module '@tanstack/react-router' {
       path: '/insurance'
       fullPath: '/insurance'
       preLoaderRoute: typeof InsuranceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/credit-score': {
@@ -221,6 +241,7 @@ const rootRouteChildren: RootRouteChildren = {
   CalculatorRoute: CalculatorRoute,
   CardsRoute: CardsRoute,
   CreditScoreRoute: CreditScoreRoute,
+  FaqRoute: FaqRoute,
   InsuranceRoute: InsuranceRoute,
   InvestmentsRoute: InvestmentsRoute,
   LoansRoute: LoansRoute,
