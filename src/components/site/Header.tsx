@@ -5,13 +5,15 @@ import logo from "@/assets/roi-bazaar-logo.jpg";
 import alarLogo from "@/assets/alar-solutions-logo.jpg";
 
 const navItems = [
-  { label: "Loans", href: "#loans" },
-  { label: "Cards", href: "#cards" },
-  { label: "Credit Score", href: "#credit-score" },
-  { label: "Investments", href: "#investments" },
-  { label: "Calculators", href: "#calculator" },
-  { label: "Insurance", href: "#insurance" },
-  { label: "Recharge", href: "#recharge" },
+  { label: "Loans", to: "/loans" as const },
+  { label: "Cards", to: "/cards" as const },
+  { label: "Credit Score", to: "/credit-score" as const },
+  { label: "Investments", to: "/investments" as const },
+  { label: "Calculators", to: "/calculator" as const },
+  { label: "Insurance", to: "/insurance" as const },
+  { label: "Recharge", to: "/recharge" as const },
+  { label: "Blog", to: "/blog" as const },
+  { label: "FAQ", to: "/faq" as const },
 ];
 
 export function Header({ onSignIn, onGetStarted, onQR, onSearch }: {
