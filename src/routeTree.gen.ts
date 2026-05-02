@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RechargeRouteImport } from './routes/recharge'
 import { Route as LoansRouteImport } from './routes/loans'
 import { Route as InvestmentsRouteImport } from './routes/investments'
 import { Route as InsuranceRouteImport } from './routes/insurance'
@@ -17,6 +18,11 @@ import { Route as CardsRouteImport } from './routes/cards'
 import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as IndexRouteImport } from './routes/index'
 
+const RechargeRoute = RechargeRouteImport.update({
+  id: '/recharge',
+  path: '/recharge',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoansRoute = LoansRouteImport.update({
   id: '/loans',
   path: '/loans',
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/insurance': typeof InsuranceRoute
   '/investments': typeof InvestmentsRoute
   '/loans': typeof LoansRoute
+  '/recharge': typeof RechargeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/insurance': typeof InsuranceRoute
   '/investments': typeof InvestmentsRoute
   '/loans': typeof LoansRoute
+  '/recharge': typeof RechargeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/insurance': typeof InsuranceRoute
   '/investments': typeof InvestmentsRoute
   '/loans': typeof LoansRoute
+  '/recharge': typeof RechargeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/insurance'
     | '/investments'
     | '/loans'
+    | '/recharge'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/insurance'
     | '/investments'
     | '/loans'
+    | '/recharge'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/insurance'
     | '/investments'
     | '/loans'
+    | '/recharge'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,10 +131,18 @@ export interface RootRouteChildren {
   InsuranceRoute: typeof InsuranceRoute
   InvestmentsRoute: typeof InvestmentsRoute
   LoansRoute: typeof LoansRoute
+  RechargeRoute: typeof RechargeRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/recharge': {
+      id: '/recharge'
+      path: '/recharge'
+      fullPath: '/recharge'
+      preLoaderRoute: typeof RechargeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/loans': {
       id: '/loans'
       path: '/loans'
@@ -183,6 +203,7 @@ const rootRouteChildren: RootRouteChildren = {
   InsuranceRoute: InsuranceRoute,
   InvestmentsRoute: InvestmentsRoute,
   LoansRoute: LoansRoute,
+  RechargeRoute: RechargeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
