@@ -4,9 +4,9 @@ import { EmiCalculator } from "@/components/site/EmiCalculator";
 export const Route = createFileRoute("/calculator")({
   head: () => ({
     meta: [
-      { title: "EMI Calculator | ₹OI Bazaar" },
+      { title: "EMI Calculator | ₹OI Bazaar.com" },
       { name: "description", content: "Calculate EMIs for home, car and personal loans instantly." },
-      { property: "og:title", content: "EMI Calculator — ₹OI Bazaar" },
+      { property: "og:title", content: "EMI Calculator — ₹OI Bazaar.com" },
       { property: "og:description", content: "Plan your loan with our easy EMI calculator." },
     ],
   }),

@@ -27,7 +27,7 @@ const posts: Post[] = [
       "Step 2: Keep your credit utilization below 30%. If your card limit is ₹1,00,000, never let your outstanding balance cross ₹30,000. This single change can lift your score by 40+ points within 2 months.",
       "Step 3: Don't close old credit cards. The age of your oldest account contributes 15% to your score. Keep your oldest card active with small recurring purchases.",
       "Step 4: Limit new credit applications. Every hard inquiry shaves 5–10 points. Apply only when you genuinely need credit, and never within 90 days of an upcoming loan application.",
-      "Step 5: Check your credit report on ₹OI Bazaar every month — for free. Dispute any errors immediately. Roughly 1 in 5 reports has an error that's silently dragging the score down.",
+      "Step 5: Check your credit report on ₹OI Bazaar.com every month — for free. Dispute any errors immediately. Roughly 1 in 5 reports has an error that's silently dragging the score down.",
       "Follow these five steps consistently and most users see a 80–120 point improvement within 4–6 months.",
     ],
   },
@@ -46,7 +46,7 @@ const posts: Post[] = [
       "Hybrid Aggressive Funds: A blend of 65–80% equity and 20–35% debt, perfect for first-time investors. Lower volatility than pure equity, with 11–13% historical returns.",
       "ELSS Tax Savers: Save up to ₹46,800 in taxes under Section 80C while building wealth. The 3-year lock-in is the shortest among 80C products.",
       "How to start: Pick 2–3 funds across categories, set up auto-debit on the 5th of every month, and review annually — not monthly. Start small, stay consistent, and let compounding work its magic.",
-      "Use the ₹OI Bazaar SIP calculator to project how a ₹5,000/month SIP grows into ₹50+ lakhs over 20 years.",
+      "Use the ₹OI Bazaar.com SIP calculator to project how a ₹5,000/month SIP grows into ₹50+ lakhs over 20 years.",
     ],
   },
   {
@@ -64,7 +64,7 @@ const posts: Post[] = [
       "Best for personal loan: Wedding (₹3–10 lakh), home renovation, medical emergency, debt consolidation, higher education.",
       "Best for credit card: Daily expenses, online shopping, travel bookings, EMI conversions on appliances (often at 0% via partner offers), and earning reward points.",
       "Pro tip: Use a credit card for everything you'd buy anyway, but pay the full bill every month. Use a personal loan only for one-time large expenses you can't clear in 1–2 months.",
-      "Compare 50+ personal loan offers and 30+ credit cards on ₹OI Bazaar to find the lowest rate for your profile.",
+      "Compare 50+ personal loan offers and 30+ credit cards on ₹OI Bazaar.com to find the lowest rate for your profile.",
     ],
   },
 ];
@@ -185,7 +185,7 @@ function ArticleModal({ post, onClose }: { post: Post; onClose: () => void }) {
 
           <div className="mt-8 pt-6 border-t border-border flex justify-between items-center">
             <span className="text-xs text-muted-foreground">
-              Published by ₹OI Bazaar Editorial
+              Published by ₹OI Bazaar.com Editorial
             </span>
             <button
               onClick={onClose}

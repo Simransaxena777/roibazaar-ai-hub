@@ -12,7 +12,7 @@ export function AppDownload() {
           <div>
             <p className="text-sm font-bold text-brand-cyan uppercase tracking-wider">Mobile App</p>
             <h2 className="font-display text-4xl lg:text-5xl font-extrabold mt-2">
-              Get the ₹OI Bazaar <br/>
+              Get the ₹OI Bazaar.com <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-pink">App on Mobile</span>
             </h2>
             <p className="mt-4 text-white/70 text-lg max-w-xl">

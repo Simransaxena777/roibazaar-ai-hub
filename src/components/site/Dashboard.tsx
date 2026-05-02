@@ -193,7 +193,7 @@ function receiptHtml(t: TxnRecord) {
 .total{display:flex;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:2px solid #0f172a;font-size:20px;font-weight:800}
 .badge{display:inline-block;background:#dcfce7;color:#16a34a;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:800}
 </style></head><body><div class="card">
-<div class="head"><span class="badge">PAID</span><h1>₹OI Bazaar — Payment Receipt</h1><p style="margin:4px 0 0;opacity:.9;font-size:12px">Powered by Alar Solutions</p></div>
+<div class="head"><span class="badge">PAID</span><h1>₹OI Bazaar.com — Payment Receipt</h1><p style="margin:4px 0 0;opacity:.9;font-size:12px">Powered by Alar Solutions</p></div>
 <div class="body">
 <div class="row"><span>Transaction ID</span><span>${t.id}</span></div>
 <div class="row"><span>Date</span><span>${new Date(t.date).toLocaleString("en-IN")}</span></div>

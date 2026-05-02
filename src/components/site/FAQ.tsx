@@ -3,11 +3,11 @@ import { ChevronDown, HelpCircle } from "lucide-react";
 
 const faqs = [
   {
-    q: "What is ₹OI Bazaar and how does it work?",
-    a: "₹OI Bazaar is India's leading financial marketplace powered by Alar Solutions. We help you compare and apply for loans, credit cards, insurance, mutual funds, and fixed deposits from 100+ partner banks and NBFCs — all in one place, with instant approvals and zero paperwork.",
+    q: "What is ₹OI Bazaar.com and how does it work?",
+    a: "₹OI Bazaar.com is India's leading financial marketplace powered by Alar Solutions. We help you compare and apply for loans, credit cards, insurance, mutual funds, and fixed deposits from 100+ partner banks and NBFCs — all in one place, with instant approvals and zero paperwork.",
   },
   {
-    q: "Is ₹OI Bazaar free to use?",
+    q: "Is ₹OI Bazaar.com free to use?",
     a: "Yes, comparing products, checking your credit score, and using our calculators is 100% free. We earn a commission from our partner banks when you successfully avail a product — there are no hidden charges to you.",
   },
   {
@@ -15,7 +15,7 @@ const faqs = [
     a: "Most personal loan applications are approved within 5 minutes. Disbursal typically happens within 24 hours directly to your bank account, subject to document verification and partner bank policies.",
   },
   {
-    q: "Is my data safe with ₹OI Bazaar?",
+    q: "Is my data safe with ₹OI Bazaar.com?",
     a: "Absolutely. We use bank-grade 256-bit SSL encryption, are RBI compliant, and follow strict data privacy standards. Your information is never shared without your consent and is stored on secure servers in India.",
   },
   {
@@ -50,7 +50,7 @@ export function FAQ() {
             Got <span className="text-gradient-primary">Questions?</span> We've got answers
           </h2>
           <p className="text-muted-foreground mt-3 text-lg">
-            Everything you need to know about ₹OI Bazaar and our services.
+            Everything you need to know about ₹OI Bazaar.com and our services.
           </p>
         </div>
 
