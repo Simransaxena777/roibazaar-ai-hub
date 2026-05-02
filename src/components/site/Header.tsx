@@ -5,13 +5,15 @@ import logo from "@/assets/roi-bazaar-logo.jpg";
 import alarLogo from "@/assets/alar-solutions-logo.jpg";
 
 const navItems = [
-  { label: "Loans", href: "#loans" },
-  { label: "Cards", href: "#cards" },
-  { label: "Credit Score", href: "#credit-score" },
-  { label: "Investments", href: "#investments" },
-  { label: "Calculators", href: "#calculator" },
-  { label: "Insurance", href: "#insurance" },
-  { label: "Recharge", href: "#recharge" },
+  { label: "Loans", to: "/loans" as const },
+  { label: "Cards", to: "/cards" as const },
+  { label: "Credit Score", to: "/credit-score" as const },
+  { label: "Investments", to: "/investments" as const },
+  { label: "Calculators", to: "/calculator" as const },
+  { label: "Insurance", to: "/insurance" as const },
+  { label: "Recharge", to: "/recharge" as const },
+  { label: "Blog", to: "/blog" as const },
+  { label: "FAQ", to: "/faq" as const },
 ];
 
 export function Header({ onSignIn, onGetStarted, onQR, onSearch }: {
@@ -57,14 +59,15 @@ export function Header({ onSignIn, onGetStarted, onQR, onSearch }: {
           {/* Desktop Nav — single line, no wrap */}
           <nav className="hidden lg:flex items-center gap-0.5 flex-nowrap">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
+                to={item.to}
+                activeProps={{ className: "text-primary" }}
                 className="relative whitespace-nowrap px-3 py-2 text-sm font-semibold text-foreground/80 hover:text-primary transition-colors group"
               >
                 {item.label}
                 <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-gradient-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-full" />
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -111,14 +114,15 @@ export function Header({ onSignIn, onGetStarted, onQR, onSearch }: {
           <div className="lg:hidden pb-4 animate-fade-up">
             <nav className="flex flex-col gap-1">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.label}
-                  href={item.href}
+                  to={item.to}
                   onClick={() => setMobileOpen(false)}
+                  activeProps={{ className: "text-primary bg-muted" }}
                   className="px-4 py-3 rounded-xl text-sm font-semibold hover:bg-muted hover:text-primary"
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
               <button onClick={onSignIn} className="mt-2 mx-4 py-3 rounded-xl border border-primary text-primary font-semibold">
                 Sign In

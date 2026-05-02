@@ -1,6 +1,16 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { LayoutDashboard } from "lucide-react";
 
 import appCss from "../styles.css?url";
+import { SiteProvider, useSite } from "@/lib/site-context";
+import { Header } from "@/components/site/Header";
+import { MarketTicker } from "@/components/site/MarketTicker";
+import { CTASection, Footer } from "@/components/site/Footer";
+import { AIChatWidget } from "@/components/site/AIChatWidget";
+import { LoginModal } from "@/components/site/LoginModal";
+import { ActionModal } from "@/components/site/ActionModal";
+import { PaymentModal } from "@/components/site/PaymentModal";
+import { Dashboard } from "@/components/site/Dashboard";
 
 function NotFoundComponent() {
   return (
@@ -64,5 +74,67 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
-  return <Outlet />;
+  return (
+    <SiteProvider>
+      <SiteShell />
+    </SiteProvider>
+  );
+}
+
+function SiteShell() {
+  const {
+    user, setUser,
+    loginOpen, setLoginOpen,
+    modal, setModal,
+    payment, setPayment,
+    dashOpen, setDashOpen,
+    saveTxn,
+  } = useSite();
+
+  return (
+    <div className="min-h-screen bg-background">
+      <MarketTicker />
+      <Header
+        onSignIn={() => setLoginOpen(true)}
+        onGetStarted={() => setLoginOpen(true)}
+        onQR={() => setModal({ title: "Scan QR Code", message: "Open your camera and scan the QR code to download the ₹OI Bazaar app." })}
+        onSearch={() => setModal({ title: "Global Search", message: "Search any product, calculator, or feature across ₹OI Bazaar." })}
+      />
+
+      <Outlet />
+
+      <CTASection onAction={() => setLoginOpen(true)} />
+      <Footer />
+
+      <AIChatWidget />
+      <LoginModal
+        open={loginOpen}
+        onClose={() => setLoginOpen(false)}
+        onSuccess={(name) => {
+          setUser(name);
+          setModal({ title: `Welcome, ${name}! 👋`, message: "You're now logged in. Explore your personalized dashboard, portfolio, and exclusive offers." });
+        }}
+      />
+      <ActionModal open={!!modal} title={modal?.title || ""} message={modal?.message || ""} onClose={() => setModal(null)} />
+      <PaymentModal
+        open={!!payment}
+        request={payment}
+        onClose={() => setPayment(null)}
+        onComplete={(t) => saveTxn(t)}
+      />
+      <Dashboard open={dashOpen} user={user} onClose={() => setDashOpen(false)} />
+
+      {user && (
+        <button
+          onClick={() => setDashOpen(true)}
+          className="fixed bottom-24 right-4 z-40 lg:bottom-6 lg:right-24 inline-flex items-center gap-2 rounded-full bg-white border border-border shadow-card hover:shadow-glow px-4 py-3 text-sm font-bold transition hover:-translate-y-0.5"
+        >
+          <span className="h-7 w-7 rounded-full bg-gradient-primary text-white flex items-center justify-center font-extrabold text-xs">
+            {user.slice(0, 1).toUpperCase()}
+          </span>
+          <LayoutDashboard size={16} className="text-primary" /> Dashboard
+        </button>
+      )}
+    </div>
+  );
 }
