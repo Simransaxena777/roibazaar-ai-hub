@@ -21,7 +21,7 @@ export function CTASection({ onAction }: { onAction: () => void }) {
               Ready to Take Control of Your Finances?
             </h2>
             <p className="mt-3 text-white/80 text-lg max-w-2xl mx-auto">
-              Join 50 lakh+ Indians who trust ₹OI Bazaar for smarter financial decisions.
+              Join 50 lakh+ Indians who trust ₹OI Bazaar.com for smarter financial decisions.
             </p>
             <button
               onClick={onAction}
@@ -48,7 +48,7 @@ export function Footer() {
                 <img src={logo} alt="ROI Bazaar" className="h-full w-full rounded-lg object-cover" />
               </div>
               <div>
-                <p className="font-display font-extrabold text-xl">₹OI Bazaar</p>
+                <p className="font-display font-extrabold text-xl">₹OI Bazaar.com</p>
                 <p className="text-xs opacity-70 flex items-center gap-1">
                   Powered by <img src={alarLogo} alt="Alar Solutions" className="h-3 w-auto inline rounded-sm" />
                   <span className="font-bold text-brand-cyan">Alar Solutions</span>
@@ -103,7 +103,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-white/10 pt-6 flex flex-wrap justify-between items-center gap-4 text-xs text-white/50">
-          <p>© {new Date().getFullYear()} ₹OI Bazaar by Alar Solutions. All rights reserved. RBI Reg #NBFC-12345</p>
+          <p>© {new Date().getFullYear()} ₹OI Bazaar.com by Alar Solutions. All rights reserved. RBI Reg #NBFC-12345</p>
           <p>Made with ❤️ in India</p>
         </div>
       </div>

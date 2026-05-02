@@ -11,9 +11,9 @@ import { useSite } from "@/lib/site-context";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "₹OI Bazaar — India's #1 Financial Marketplace" },
+      { title: "₹OI Bazaar.com — India's #1 Financial Marketplace" },
       { name: "description", content: "Compare loans, cards, insurance & investments. Earn cashback and get instant approvals." },
-      { property: "og:title", content: "₹OI Bazaar — Compare & Choose the Best Financial Products" },
+      { property: "og:title", content: "₹OI Bazaar.com — Compare & Choose the Best Financial Products" },
       { property: "og:description", content: "Compare loans, cards, insurance & investments. Earn cashback and get instant approvals." },
     ],
   }),

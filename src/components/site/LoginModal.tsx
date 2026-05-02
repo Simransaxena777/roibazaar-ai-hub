@@ -98,9 +98,9 @@ export function LoginModal({ open, onClose, onSuccess }: {
           <div className="absolute inset-0 bg-gradient-to-br from-primary/80 via-brand-purple/70 to-brand-cyan/60" />
           <div className="relative h-full flex flex-col justify-between p-8 text-white">
             <div className="flex items-center gap-3">
-              <img src={roiLogo} alt="₹OI Bazaar" className="h-11 w-11 rounded-xl bg-white/95 p-1 shadow-soft" />
+              <img src={roiLogo} alt="₹OI Bazaar.com" className="h-11 w-11 rounded-xl bg-white/95 p-1 shadow-soft" />
               <div>
-                <p className="font-display font-extrabold text-lg leading-none">₹OI Bazaar</p>
+                <p className="font-display font-extrabold text-lg leading-none">₹OI Bazaar.com</p>
                 <p className="text-[10px] opacity-80 mt-0.5">Powered by Alar Solutions</p>
               </div>
             </div>
@@ -251,7 +251,7 @@ export function LoginModal({ open, onClose, onSuccess }: {
               </button>
 
               <p className="text-center text-xs text-muted-foreground mt-5">
-                {mode === "signin" ? "New to ₹OI Bazaar?" : "Already have an account?"}{" "}
+                {mode === "signin" ? "New to ₹OI Bazaar.com?" : "Already have an account?"}{" "}
                 <button onClick={() => setMode(mode === "signin" ? "signup" : "signin")} className="text-primary font-bold hover:underline">
                   {mode === "signin" ? "Create account" : "Sign in"}
                 </button>

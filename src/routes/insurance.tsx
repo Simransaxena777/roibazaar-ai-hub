@@ -5,9 +5,9 @@ import { useSite } from "@/lib/site-context";
 export const Route = createFileRoute("/insurance")({
   head: () => ({
     meta: [
-      { title: "Insurance — Health, Life, Vehicle & Travel | ₹OI Bazaar" },
+      { title: "Insurance — Health, Life, Vehicle & Travel | ₹OI Bazaar.com" },
       { name: "description", content: "Protect what matters with the right health, life, vehicle and travel insurance." },
-      { property: "og:title", content: "Insurance — ₹OI Bazaar" },
+      { property: "og:title", content: "Insurance — ₹OI Bazaar.com" },
       { property: "og:description", content: "Compare insurance plans tailored for you." },
     ],
   }),

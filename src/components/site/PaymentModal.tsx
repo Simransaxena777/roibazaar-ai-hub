@@ -340,7 +340,7 @@ export function PaymentModal({
                   <div className="flex items-center gap-2">
                     <img src={roiLogo} alt="" className="h-8 w-8 rounded-lg" />
                     <div>
-                      <p className="font-display font-extrabold text-sm">₹OI Bazaar</p>
+                      <p className="font-display font-extrabold text-sm">₹OI Bazaar.com</p>
                       <p className="text-[10px] text-muted-foreground">Powered by Alar Solutions</p>
                     </div>
                   </div>
@@ -447,7 +447,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5f7fb;
 .foot{padding:18px 28px;background:#f8fafc;font-size:11px;color:#64748b;text-align:center}
 </style></head>
 <body><div class="card">
-<div class="head"><span class="badge">PAID</span><h1>₹OI Bazaar — Payment Receipt</h1><p>Powered by Alar Solutions</p></div>
+<div class="head"><span class="badge">PAID</span><h1>₹OI Bazaar.com — Payment Receipt</h1><p>Powered by Alar Solutions</p></div>
 <div class="body">
 <div class="row"><span>Transaction ID</span><span>${t.id}</span></div>
 <div class="row"><span>Date &amp; Time</span><span>${new Date(t.date).toLocaleString("en-IN")}</span></div>

@@ -46,7 +46,7 @@ export function Header({ onSignIn, onGetStarted, onQR, onSearch }: {
             </div>
             <div className="flex flex-col leading-tight">
               <span className="font-display font-extrabold text-base text-foreground">
-                ₹OI <span className="text-gradient-primary">Bazaar</span>
+                ₹OI <span className="text-gradient-primary">Bazaar</span><span className="text-foreground">.com</span>
               </span>
               <span className="text-[10px] text-muted-foreground flex items-center gap-1">
                 Powered by

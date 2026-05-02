@@ -39,10 +39,10 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "₹OI Bazaar — Compare & Choose the Best Financial Products" },
-      { name: "description", content: "₹OI Bazaar by Alar Solutions: Compare loans, credit cards, insurance, mutual funds, FDs and check your credit score — all in one place." },
+      { title: "₹OI Bazaar.com — Compare & Choose the Best Financial Products" },
+      { name: "description", content: "₹OI Bazaar.com by Alar Solutions: Compare loans, credit cards, insurance, mutual funds, FDs and check your credit score — all in one place." },
       { name: "author", content: "Alar Solutions" },
-      { property: "og:title", content: "₹OI Bazaar — India's Financial Marketplace" },
+      { property: "og:title", content: "₹OI Bazaar.com — India's Financial Marketplace" },
       { property: "og:description", content: "Compare loans, credit cards, insurance, mutual funds, FDs and credit score." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -97,8 +97,8 @@ function SiteShell() {
       <Header
         onSignIn={() => setLoginOpen(true)}
         onGetStarted={() => setLoginOpen(true)}
-        onQR={() => setModal({ title: "Scan QR Code", message: "Open your camera and scan the QR code to download the ₹OI Bazaar app." })}
-        onSearch={() => setModal({ title: "Global Search", message: "Search any product, calculator, or feature across ₹OI Bazaar." })}
+        onQR={() => setModal({ title: "Scan QR Code", message: "Open your camera and scan the QR code to download the ₹OI Bazaar.com app." })}
+        onSearch={() => setModal({ title: "Global Search", message: "Search any product, calculator, or feature across ₹OI Bazaar.com." })}
       />
 
       <Outlet />

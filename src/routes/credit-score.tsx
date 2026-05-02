@@ -5,9 +5,9 @@ import { useSite } from "@/lib/site-context";
 export const Route = createFileRoute("/credit-score")({
   head: () => ({
     meta: [
-      { title: "Free Credit Score Check | ₹OI Bazaar" },
+      { title: "Free Credit Score Check | ₹OI Bazaar.com" },
       { name: "description", content: "Check your credit score for free and get personalised tips to improve it." },
-      { property: "og:title", content: "Free Credit Score — ₹OI Bazaar" },
+      { property: "og:title", content: "Free Credit Score — ₹OI Bazaar.com" },
       { property: "og:description", content: "Check your credit score for free, instantly." },
     ],
   }),
